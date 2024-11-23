@@ -3,17 +3,18 @@ Use EMDatabase;
 
 -- Create Users Table
 CREATE TABLE Users (
-    UserID NVARCHAR(28) PRIMARY KEY,
+    UserID INT PRIMARY KEY IDENTITY(1,1),
     FirstName NVARCHAR(100) NOT NULL,
     LastName NVARCHAR(100) NOT NULL,
     Email NVARCHAR(255) UNIQUE NOT NULL,
     PasswordHash NVARCHAR(255) NOT NULL,
-    Role NVARCHAR(50) NOT NULL
+    Role NVARCHAR(50) NOT NULL,
+	isDeleted BIT DEFAULT 0
 );
 
 -- Create Customers Table
 CREATE TABLE Customer (
-    CustomerID NVARCHAR(28) PRIMARY KEY,
+    CustomerID INT PRIMARY KEY IDENTITY(1,1),
     FirstName NVARCHAR(100) NOT NULL,
     LastName NVARCHAR(100) NOT NULL,
     Email NVARCHAR(255) UNIQUE NOT NULL,
@@ -26,7 +27,7 @@ CREATE TABLE Customer (
 -- Create Facilities Table
 CREATE TABLE Facilities (
     FacilityID INT PRIMARY KEY IDENTITY(1,1),
-    CustomerID NVARCHAR(28) NOT NULL,
+    CustomerID INT NOT NULL,
     Name NVARCHAR(255) NOT NULL,
     Address NVARCHAR(255) NOT NULL,
     PhoneNumber NVARCHAR(15),
@@ -39,7 +40,7 @@ CREATE TABLE Facilities (
 CREATE TABLE Project (
     ProjectID INT PRIMARY KEY IDENTITY(1,1),
     FacilityID INT NOT NULL,
-    UserID NVARCHAR(28) NOT NULL,
+    UserID INT NOT NULL,
     surveyDate DATE NOT NULL,
     startDate DATE,
     endDate DATE,
@@ -62,7 +63,7 @@ CREATE TABLE Payments (
 -- Create Notifications Table
 CREATE TABLE Notifications (
     NotificationID INT PRIMARY KEY IDENTITY(1,1),
-    CustomerID NVARCHAR(28) NOT NULL,
+    CustomerID INT NOT NULL,
     Message NVARCHAR(1000) NOT NULL,
     ScheduledSendTime DATETIME NOT NULL,
     Status NVARCHAR(50),
@@ -89,7 +90,8 @@ CREATE TABLE Employee (
     FirstName NVARCHAR(100) NOT NULL,
     LastName NVARCHAR(100) NOT NULL,
     Email NVARCHAR(255) UNIQUE,
-    Address NVARCHAR(255)
+    Address NVARCHAR(255),
+	isDeleted BIT DEFAULT 0
 );
 
 -- Create JobCardTeams Table
