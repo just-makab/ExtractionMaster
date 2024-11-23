@@ -1,0 +1,112 @@
+Create database EMDatabase;
+Use EMDatabase;
+
+-- Create Users Table
+CREATE TABLE Users (
+    UserID NVARCHAR(28) PRIMARY KEY,
+    FirstName NVARCHAR(100) NOT NULL,
+    LastName NVARCHAR(100) NOT NULL,
+    Email NVARCHAR(255) UNIQUE NOT NULL,
+    PasswordHash NVARCHAR(255) NOT NULL,
+    Role NVARCHAR(50) NOT NULL
+);
+
+-- Create Customers Table
+CREATE TABLE Customer (
+    CustomerID NVARCHAR(28) PRIMARY KEY,
+    FirstName NVARCHAR(100) NOT NULL,
+    LastName NVARCHAR(100) NOT NULL,
+    Email NVARCHAR(255) UNIQUE NOT NULL,
+    PhoneNumber NVARCHAR(15) NOT NULL,
+    PasswordHash NVARCHAR(255) NOT NULL,
+    OfficeLocation NVARCHAR(255),
+    isDeleted BIT DEFAULT 0
+);
+
+-- Create Facilities Table
+CREATE TABLE Facilities (
+    FacilityID INT PRIMARY KEY IDENTITY(1,1),
+    CustomerID NVARCHAR(28) NOT NULL,
+    Name NVARCHAR(255) NOT NULL,
+    Address NVARCHAR(255) NOT NULL,
+    PhoneNumber NVARCHAR(15),
+    OperatingHours NVARCHAR(50),
+    isDeleted BIT DEFAULT 0,
+    FOREIGN KEY (CustomerID) REFERENCES Customer(CustomerID)
+);
+
+-- Create Project Table
+CREATE TABLE Project (
+    ProjectID INT PRIMARY KEY IDENTITY(1,1),
+    FacilityID INT NOT NULL,
+    UserID NVARCHAR(28) NOT NULL,
+    surveyDate DATE NOT NULL,
+    startDate DATE,
+    endDate DATE,
+    totalCost DECIMAL(10, 2),
+    paymentStatus NVARCHAR(50) NOT NULL,
+    ProgressStatus NVARCHAR(50) NOT NULL,
+    FOREIGN KEY (FacilityID) REFERENCES Facilities(FacilityID),
+    FOREIGN KEY (UserID) REFERENCES Users(UserID)
+);
+
+-- Create Payments Table
+CREATE TABLE Payments (
+    PaymentID INT PRIMARY KEY IDENTITY(1,1),
+    ProjectID INT NOT NULL,
+    PaymentDate DATE NOT NULL,
+    amountPaid DECIMAL(10, 2) NOT NULL,
+    FOREIGN KEY (ProjectID) REFERENCES Project(ProjectID)
+);
+
+-- Create Notifications Table
+CREATE TABLE Notifications (
+    NotificationID INT PRIMARY KEY IDENTITY(1,1),
+    CustomerID NVARCHAR(28) NOT NULL,
+    Message NVARCHAR(1000) NOT NULL,
+    ScheduledSendTime DATETIME NOT NULL,
+    Status NVARCHAR(50),
+    CreatedAt DATETIME DEFAULT GETDATE(),
+    UpdatedAt DATETIME,
+    isDeleted BIT DEFAULT 0,
+    FOREIGN KEY (CustomerID) REFERENCES Customer(CustomerID)
+);
+
+-- Create JobCards Table
+CREATE TABLE JobCards (
+    JobCardID INT PRIMARY KEY IDENTITY(1,1),
+    ProjectID INT NOT NULL,
+    Instructions NVARCHAR(MAX),
+    Notes NVARCHAR(MAX),
+    JobStart DATE,
+    completionDate DATE,
+    FOREIGN KEY (ProjectID) REFERENCES Project(ProjectID)
+);
+
+-- Create Employees Table
+CREATE TABLE Employee (
+    EmployeeID INT PRIMARY KEY IDENTITY(1,1),
+    FirstName NVARCHAR(100) NOT NULL,
+    LastName NVARCHAR(100) NOT NULL,
+    Email NVARCHAR(255) UNIQUE,
+    Address NVARCHAR(255)
+);
+
+-- Create JobCardTeams Table
+CREATE TABLE JobCardTeams (
+    JobCardTeamID INT PRIMARY KEY IDENTITY(1,1),
+    JobCardID INT NOT NULL,
+    EmployeeID INT NOT NULL,
+    TeamName NVARCHAR(255) NOT NULL,
+    FOREIGN KEY (JobCardID) REFERENCES JobCards(JobCardID),
+    FOREIGN KEY (EmployeeID) REFERENCES Employee(EmployeeID)
+);
+
+-- Create FacilityMaintenance Table
+CREATE TABLE FacilityMaintenance (
+    FacilityMaintenanceID INT PRIMARY KEY IDENTITY(1,1),
+    ProjectID INT NOT NULL,
+    MaintenanceDate DATE NOT NULL,
+    nextDueDate DATE NOT NULL,
+    FOREIGN KEY (ProjectID) REFERENCES Project(ProjectID)
+);
