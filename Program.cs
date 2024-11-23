@@ -1,3 +1,6 @@
+using EM_WebApp.Models;
+using Microsoft.EntityFrameworkCore;
+
 namespace EM_WebApp
 {
     public class Program
@@ -9,7 +12,12 @@ namespace EM_WebApp
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
+            //Register DB Context
+            builder.Services.AddDbContext<EMDbContext>(options =>
+                options.UseSqlServer(builder.Configuration.GetConnectionString("EMDatabase")));
+
             var app = builder.Build();
+           
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
