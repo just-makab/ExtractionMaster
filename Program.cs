@@ -1,4 +1,5 @@
 using EM_WebApp.Models;
+using EM_WebApp.Utilities.Notification;
 using Microsoft.EntityFrameworkCore;
 
 namespace EM_WebApp
@@ -15,6 +16,13 @@ namespace EM_WebApp
             //Register DB Context
             builder.Services.AddDbContext<EMDbContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("EMDatabase")));
+
+            //Sanitizer for user input throughout the application
+            builder.Services.AddScoped<EM_WebApp.Utilities.IInputSanitizer, EM_WebApp.Utilities.InputSanitizer>();
+
+            //Notifications System
+            builder.Services.AddTransient<INotificationService, NotificationService>();
+
 
             var app = builder.Build();
            
