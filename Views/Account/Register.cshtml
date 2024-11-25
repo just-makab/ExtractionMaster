@@ -4,52 +4,189 @@
     ViewData["Title"] = "Register";
 }
 
-<h2>Register</h2>
+<div class="register-page">
+    <div class="register-card">
+        <h2 class="register-title">Register</h2>
 
-<div class="form-container">
-    <form asp-action="Register" method="post">
-        <div class="form-group">
-            <label asp-for="Email" class="form-label"></label>
-            <input asp-for="Email" class="form-control" />
-            <span asp-validation-for="Email" class="text-danger"></span>
-        </div>
+        @* Display validation summary *@
+        <div asp-validation-summary="All" class="text-danger"></div>
 
-        <div class="form-group">
-            <label asp-for="FirstName" class="form-label"></label>
-            <input asp-for="FirstName" class="form-control" />
-            <span asp-validation-for="FirstName" class="text-danger"></span>
-        </div>
+        <form asp-action="Register" method="post" novalidate>
+            <div class="form-group">
+                <label asp-for="FirstName" class="form-label">First Name</label>
+                <input asp-for="FirstName" class="form-control" placeholder="First name" required />
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
 
-        <div class="form-group">
-            <label asp-for="LastName" class="form-label"></label>
-            <input asp-for="LastName" class="form-control" />
-            <span asp-validation-for="LastName" class="text-danger"></span>
-        </div>
+            <div class="form-group">
+                <label asp-for="LastName" class="form-label">Last Name</label>
+                <input asp-for="LastName" class="form-control" placeholder="Surname" required />
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
 
-        <div class="form-group">
-            <label asp-for="PhoneNumber" class="form-label"></label>
-            <input asp-for="PhoneNumber" class="form-control" />
-            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
-        </div>
+            <div class="form-group">
+                <label asp-for="Email" class="form-label">Email</label>
+                <input asp-for="Email" class="form-control" placeholder="Email" required type="email" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
 
-        <div class="form-group">
-            <label asp-for="Password" class="form-label"></label>
-            <input asp-for="Password" class="form-control" type="password" />
-            <span asp-validation-for="Password" class="text-danger"></span>
-        </div>
+            <div class="form-group">
+                <label asp-for="PhoneNumber" class="form-label">Phone Number</label>
+                <input asp-for="PhoneNumber" class="form-control" placeholder="Phone number" required type="tel" />
+                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+            </div>
 
-        <div class="form-group">
-            <label asp-for="ConfirmPassword" class="form-label"></label>
-            <input asp-for="ConfirmPassword" class="form-control" type="password" />
-            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
-        </div>
+            <div class="form-group">
+                <label asp-for="Password" class="form-label">Password</label>
+                <div class="password-input">
+                    <input asp-for="Password" class="form-control" placeholder="Password" required type="password" />
+                    <span class="toggle-password" onclick="togglePasswordVisibility()">
+                        <i class="fas fa-eye"></i>
+                    </span>
+                </div>
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
 
-        <button type="submit" class="btn btn-primary">Register</button>
-    </form>
+            <div class="form-group">
+                <label asp-for="ConfirmPassword" class="form-label">Confirm Password</label>
+                <div class="password-input">
+                    <input asp-for="ConfirmPassword" class="form-control" placeholder="Confirm password" required type="password" />
+                    <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-block">Register</button>
+        </form>
+
+        <p class="login-link">
+            Already have an account? <a asp-area="" asp-controller="Account" asp-action="Login">Login here</a>
+        </p>
+    </div>
 </div>
 
 @section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
+    <script>
+        function togglePasswordVisibility() {
+            const passwordField = document.querySelector('.password-input input');
+            const toggleIcon = document.querySelector('.toggle-password i');
+
+            if (passwordField.type === 'password') {
+                passwordField.type = 'text';
+                toggleIcon.classList.remove('fa-eye');
+                toggleIcon.classList.add('fa-eye-slash');
+            } else {
+                passwordField.type = 'password';
+                toggleIcon.classList.remove('fa-eye-slash');
+                toggleIcon.classList.add('fa-eye');
+            }
+        }
+    </script>
 }
+
+<style>
+    /* Registration Page Container */
+    .register-page {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        background-color: transparent;
+        padding: 20px;
+    }
+
+    /* Registration Card */
+    .register-card {
+        background: #fff;
+        padding: 2rem;
+        border-radius: 8px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        max-width: 400px;
+        width: 100%;
+        text-align: center;
+    }
+
+    .register-title {
+        margin-bottom: 1.5rem;
+        font-size: 1.5rem;
+        color: #2c3e50;
+    }
+
+    /* Form Groups */
+    .form-group {
+        margin-bottom: 1rem;
+        text-align: left;
+    }
+
+    .form-label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: bold;
+        color: #333;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 0.75rem;
+        font-size: 1rem;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+    }
+
+        .form-control:focus {
+            border-color: #3498db;
+            box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.25);
+        }
+
+    /* Password Input with Toggle */
+    .password-input {
+        position: relative;
+    }
+
+    .toggle-password {
+        position: absolute;
+        top: 50%;
+        right: 10px;
+        transform: translateY(-50%);
+        cursor: pointer;
+    }
+
+        .toggle-password i {
+            font-size: 1rem;
+            color: #888;
+        }
+
+        .toggle-password:hover i {
+            color: #333;
+        }
+
+    /* Button */
+    .btn-primary {
+        background-color: #2c3e50;
+        color: #fff;
+        border: none;
+        padding: 0.75rem;
+        font-size: 1rem;
+        border-radius: 4px;
+        cursor: pointer;
+        width: 100%;
+    }
+
+        .btn-primary:hover {
+            background-color: #34495e;
+        }
+
+    /* Login Link */
+    .login-link {
+        margin-top: 1rem;
+        font-size: 0.9rem;
+    }
+
+        .login-link a {
+            color: #3498db;
+            text-decoration: none;
+        }
+
+            .login-link a:hover {
+                text-decoration: underline;
+            }
+</style>

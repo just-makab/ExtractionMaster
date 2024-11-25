@@ -18,7 +18,7 @@ else
 {
     <ul class="navbar-nav">
         <li class="nav-item  me-2">
-            <a class="btn btn-primary" type="submit" asp-area="" asp-controller="Account" asp-action="Login"><i class="fa-solid fa-unlock"></i> Login</a>
+            <a class="btn btn-primary" type="submit" asp-area="" asp-controller="Account" asp-action="Login"> Login</a>
         </li>
         <li class="nav-item">
             <a class="btn btn-secondary" type="submit" asp-area="" asp-controller="Account" asp-action="Register"><i class="fa-solid fa-user-plus"></i> Register</a>
@@ -27,16 +27,19 @@ else
 }
 
 <style>
-    /* Shared styles for both buttons */
+    /* Shared styles for buttons */
     .btn {
-        display: inline-block;
-        padding: 0.75rem; /* Ensures consistent spacing */
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        padding: 0.75rem 1rem; /* Consistent spacing inside buttons */
         font-size: 1rem;
         border-radius: 4px;
         text-align: center;
         cursor: pointer;
-        min-width: 50px;
-        max-width: 50px;
+        width: 150px; /* Standardized width */
+        height: 45px; /* Standardized height */
+        transition: all 0.3s ease-in-out;
     }
 
     /* Primary Button */
@@ -63,4 +66,17 @@ else
             border-color: #34495e;
             color: #34495e;
         }
+
+    /* Warning Button (for logout) */
+    .btn-warning {
+        background-color: #f39c12;
+        color: #fff;
+        border: 2px solid #e67e22;
+    }
+
+        .btn-warning:hover {
+            background-color: #e67e22;
+            border-color: #d35400;
+        }
+
 </style>
