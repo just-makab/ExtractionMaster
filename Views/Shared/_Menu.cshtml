@@ -1,0 +1,23 @@
+﻿@using Microsoft.AspNetCore.Authentication
+@using System.Security.Claims
+
+@if (User.Identity.IsAuthenticated)
+{
+    <ul class="navbar-nav me-auto">
+        @if (User.IsInRole("Customer"))
+        {
+            <li class="nav-item">
+                <a class="nav-link" asp-area="" asp-controller="Employees" asp-action="Index"><i class="fa-solid fa-industry"></i> FACILITIES</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-area="" asp-controller="Employee" asp-action="EProducts"><i class="fa-solid fa-basket-shopping"></i> Products</a>
+            </li>
+        }
+        @if (User.IsInRole("Admin"))
+        {
+            <li class="nav-item">
+                <a class="nav-link" asp-area="" asp-controller="Farmer" asp-action="Index"><i class="fa-solid fa-cow"></i> Products</a>
+            </li>
+        }
+    </ul>
+}
