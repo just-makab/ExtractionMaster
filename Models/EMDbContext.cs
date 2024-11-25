@@ -59,6 +59,7 @@ public partial class EMDbContext : DbContext
             entity.Property(e => e.OfficeLocation).HasMaxLength(255);
             entity.Property(e => e.PasswordHash).HasMaxLength(255);
             entity.Property(e => e.PhoneNumber).HasMaxLength(15);
+            entity.Property(e => e.Role).HasMaxLength(50);
         });
 
         modelBuilder.Entity<Employee>(entity =>

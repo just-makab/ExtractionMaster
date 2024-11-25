@@ -19,6 +19,8 @@ public partial class Customer
 
     public string? OfficeLocation { get; set; }
 
+    public string? Role { get; set; }
+
     public bool? IsDeleted { get; set; }
 
     public virtual ICollection<Facility> Facilities { get; set; } = new List<Facility>();
